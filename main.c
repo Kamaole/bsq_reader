@@ -24,6 +24,6 @@ int		main(int ac, char **av)
 		bsq(input);
 	}
 	end = clock(); // PLS DELETEEE!!
-	printf("\nNumber of seconds: %f\n", (end-start)/(double)CLOCKS_PER_SEC); // JUST KILL ME!!!
+	printf("Number of seconds: %f\n", (end-start)/(double)CLOCKS_PER_SEC); // JUST KILL ME!!!
 	return (0);
 }
