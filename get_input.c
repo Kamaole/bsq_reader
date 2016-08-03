@@ -1,97 +1,98 @@
 #include "bsq.h"
 
-int			g_rows = 0;
-int			g_cols = 0;
-
-void		set_num_of_rows(char *buf, int len)
+int			first_row_len(char *first_buf)
 {
-	int i;
-	int j;
+	int		i;
 
-	i = len - 4;
-	j = 1;
-	while(i >= 0)
+	i = 0;
+	while (first_buf[i] && first_buf[i] != '\n')
+		i++;
+	return (i);
+}
+
+void		set_grid_marks(t_bsq *bsq, char *first_buf, int info_len)
+{
+	bsq->square = first_buf[info_len - 1];
+	bsq->obstacle = first_buf[info_len - 2];
+	bsq->empty = first_buf[info_len - 3];	
+}
+
+void		set_num_rows(t_bsq *bsq, char *first_buf, int info_len)
+{
+	int		i;
+	int		tens;
+
+	i = info_len - 4;
+	tens = 1;
+	while (i >= 0)
 	{
-		g_rows += (buf[i] - '0') * j;
-		j *= 10;
+		bsq->num_rows += (first_buf[i] - '0') * tens;
+		tens *= 10;
 		i--;
 	}
 }
 
-void		set_num_of_cols(char *buf)
+void		set_num_cols(t_bsq *bsq, char *first_buf, int info_len)
 {
-	int i;
-	int cols;
-	int rows;
-
-	i = 0;
-	cols = 0;
-	rows = 0;
-	while (rows < 2)
-	{
-		if (buf[i] == '\n')
-			rows++;
-		else if (rows == 1)
-			cols++;
-		i++;
-	}
-	g_cols = cols;
+	bsq->num_cols = 0;
+	while (first_buf[(bsq->num_cols + 1) + info_len] != '\n' && first_buf[bsq->num_cols + info_len])
+		bsq->num_cols++;
 }
 
-int			get_info_length(char *buf)
+void		set_grid(t_bsq *bsq, char *first_buf, int info_len, int fd)
 {
-	int i;
+	int		i;
+	int		j;
+	int		bytes_read;
 
-	i = 0;
-	while (buf[i] != '\n')
+	bsq->grid = (char *)malloc(sizeof(char) * (bsq->num_rows * (bsq->num_cols + 1)));
+	i = info_len + 1;
+	j = 0;
+	while (first_buf[i + j])
 	{
-		i++;
+		bsq->grid[j] = first_buf[i + j];
+		j++;
 	}
-	return (i);
+	while ((bytes_read = read(fd, bsq->grid + j, BUF_SIZE)))
+	{
+		j += bytes_read;
+	}
+	bsq->grid[j] = 0;
+	if (j != bsq->num_rows * (bsq->num_cols + 1))
+		printf("ERROR\n");
 }
 
-char		*get_file_input(char *file_name)
+t_bsq		*get_input(int fd)
+{
+	t_bsq	*bsq;
+	int		bytes_read;
+	int		info_len;
+	char	*first_buf;
+
+	bsq = (t_bsq *)malloc(sizeof(t_bsq));
+	first_buf = malloc(BUF_SIZE + 1);
+	bytes_read = read(fd, first_buf, BUF_SIZE);
+	first_buf[bytes_read] = 0;
+	info_len = first_row_len(first_buf);
+	set_grid_marks(bsq, first_buf, info_len);
+	set_num_rows(bsq, first_buf, info_len);
+	set_num_cols(bsq, first_buf, info_len);
+	set_grid(bsq, first_buf, info_len, fd);
+	return (bsq);	
+}
+
+t_bsq		*get_file_input(char *file_name)
 {
 	int		fd;
-	int		bytes_read;
-	char	buf[BUF_SIZE];
-	char	*input;
-	int		len;
 
 	fd = open(file_name, O_RDONLY);
-	bytes_read = read(0, buf, BUF_SIZE);
-	buf[bytes_read] = '\0';
-	len = get_info_length(buf);
-	set_num_of_rows(buf, len);
-	set_num_of_cols(buf);
-	input = (char *)malloc(sizeof(char) * (g_cols * g_rows + 1));
-	input = ft_strcat(input, buf);
-	while ((bytes_read = read(fd, buf, BUF_SIZE)) > 0)
-	{
-		buf[bytes_read] = '\0';
-		input = str_concat(input, buf);
-	}
-	return (input);
+	return (get_input(fd));
 }
 
-char		*get_std_input(void)
+t_bsq		*get_std_input(void)
 {
-	int		bytes_read;
-	char	buf[BUF_SIZE];
-	char	*input;
-	int		len;
+	int		fd;
 
-	bytes_read = read(0, buf, BUF_SIZE);
-	buf[bytes_read] = '\0';
-	len = get_info_length(buf);
-	set_num_of_rows(buf, len);
-	set_num_of_cols(buf);
-	input = (char *)malloc(sizeof(char) * (g_cols * g_rows + 1));
-	input = ft_strcat(input, buf);
-	while ((bytes_read = read(0, buf, BUF_SIZE)) > 0)
-	{
-		buf[bytes_read] = '\0';
-		input = ft_strcat(input, buf);
-	}
-	return (input);	
+	fd = 0;
+	return (get_input(fd));
 }

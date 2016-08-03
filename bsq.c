@@ -1,7 +1,7 @@
 #include "bsq.h"
 
-void		bsq(char *input)
+void		bsq(t_bsq *bsq)
 {
-	(void)input;
-	// printf("%s\n", input);
+	// (void)bsq;
+	printf("%s", bsq->grid);
 }

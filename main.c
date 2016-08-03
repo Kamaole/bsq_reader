@@ -3,10 +3,10 @@
 int		main(int ac, char **av)
 {
 	int		i;
-	char	*input;
-	clock_t start, end;
+	t_bsq	*input;
+	clock_t start, end; // Delete
 
-	start = clock();
+	start = clock(); // DeLeTE
 
 	i = 1;
 	if (ac > 1)
@@ -14,15 +14,16 @@ int		main(int ac, char **av)
 		while (i < ac)
 		{
 			input = get_file_input(av[i]);
+			bsq(input);
 			i++;
 		}
 	}
 	else
 	{
 		input = get_std_input();
+		bsq(input);
 	}
-
-	end = clock();
-	printf( "Number of seconds: %f\n", (end-start)/(double)CLOCKS_PER_SEC );
-	bsq(input);
+	end = clock(); // PLS DELETEEE!!
+	printf("\nNumber of seconds: %f\n", (end-start)/(double)CLOCKS_PER_SEC); // JUST KILL ME!!!
+	return (0);
 }

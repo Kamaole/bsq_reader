@@ -5,21 +5,25 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <stdio.h> // Delete
-# include <time.h> // Delete
+# include <time.h> // KiLlllLL MEeeEeeee
 
-# define BUF_SIZE 131072
+# define BUF_SIZE 16384
 
-void		bsq(char *input);
+typedef struct	s_bsq
+{
+	int			num_rows;
+	int			num_cols;
+	int			max_size;
+	char		empty;
+	char		obstacle;
+	char		square;
+	char		*grid;
+	char		**num_grid;
+}				t_bsq;
 
-int			get_info_length(char *buf);
-void		set_num_of_cols(char *buf);
-void		set_num_of_rows(char *buf, int len);
+void			bsq(t_bsq *bsq);
 
-char		*get_file_input(char *file_name);
-char		*get_std_input(void);
-
-char		*str_concat(char *s1, char *s2);
-int			ft_strlen(char *str);
-char		*ft_strcat(char *dest, char *src);
+t_bsq			*get_file_input(char *file_name);
+t_bsq			*get_std_input(void);
 
 #endif
