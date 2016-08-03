@@ -32,12 +32,13 @@ void		print_result(t_bsq *bsq)
 	int		y;
 
 	y = 0;
+	printf("%i,%i:%i", bsq->x_loc, bsq->y_loc, bsq->max_size);
 	while (y < bsq->num_rows)
 	{
 		x = 0;
 		while (x < bsq->num_cols)
 		{
-			printf("%d ", get_char(bsq, x, y));
+			printf("%c", get_char(bsq, x, y));
 			x++;
 		}
 		printf("\n");

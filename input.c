@@ -78,6 +78,8 @@ t_bsq		*get_input(int fd)
 	set_num_rows(bsq, first_buf, info_len);
 	set_num_cols(bsq, first_buf, info_len);
 	set_grid(bsq, first_buf, info_len, fd);
+	// printf("%d\n", bsq->num_cols);
+	// bsq->num_grid[0] = (int *)malloc(sizeof(int) * bsq->num_cols);
 	return (bsq);	
 }
 

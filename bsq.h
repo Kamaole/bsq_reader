@@ -38,6 +38,7 @@ int				first_row_len(char *first_buf);
 /* dynamic_array.c */
 void			set_dynamic_array(t_bsq *bsq);
 int				get_min(int **num_grid, int x, int y);
+void			set_num(t_bsq *bsq, int i, int x, int y);
 
 /* print.c */
 void			print_result(t_bsq *bsq);
