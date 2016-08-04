@@ -17,6 +17,8 @@
 # include <stdlib.h>
 # include <unistd.h>
 
+# include <time.h> //Delete
+
 # define BUF_SIZE 16384
 
 typedef struct	s_bsq
