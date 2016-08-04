@@ -1,11 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   bsq.h                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mfernand <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2016/08/03 17:36:11 by mfernand          #+#    #+#             */
+/*   Updated: 2016/08/03 17:36:13 by mfernand         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef BSQ_H
 # define BSQ_H
 
 # include <fcntl.h>
 # include <stdlib.h>
 # include <unistd.h>
-# include <stdio.h> // Delete
-# include <time.h> // KiLlllLL MEeeEeeee
 
 # define BUF_SIZE 16384
 
@@ -25,7 +35,6 @@ typedef struct	s_bsq
 
 void			bsq(t_bsq *bsq);
 
-/* input.c */
 t_bsq			*get_file_input(char *file_name);
 t_bsq			*get_std_input(void);
 t_bsq			*get_input(int fd);
@@ -35,14 +44,17 @@ void			set_num_rows(t_bsq *bsq, char *first_buf, int info_len);
 void			set_grid_marks(t_bsq *bsq, char *first_buf, int info_len);
 int				first_row_len(char *first_buf);
 
-/* dynamic_array.c */
 void			set_dynamic_array(t_bsq *bsq);
-int				get_min(int **num_grid, int x, int y);
+void			set_num_grid(t_bsq *bsq, int i, int x, int y);
+void			init_num_grid(t_bsq *bsq);
+void			set_first_row_col(t_bsq *bsq, int i, int x, int y);
 void			set_num(t_bsq *bsq, int i, int x, int y);
+int				get_min(int **num_grid, int x, int y);
 
-/* print.c */
 void			print_result(t_bsq *bsq);
 int				is_big_square(t_bsq *t_bsq, int x, int y);
 char			get_char(t_bsq *bsq, int x, int y);
+void			ft_putchar(char c);
+void			ft_putstr(char *str);
 
 #endif

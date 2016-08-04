@@ -1,12 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mfernand <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2016/08/03 17:35:05 by mfernand          #+#    #+#             */
+/*   Updated: 2016/08/03 17:35:06 by mfernand         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "bsq.h"
 
 int		main(int ac, char **av)
 {
 	int		i;
 	t_bsq	*input;
-	clock_t start, end; // Delete
-
-	start = clock(); // DeLeTE
 
 	i = 1;
 	if (ac > 1)
@@ -23,7 +32,5 @@ int		main(int ac, char **av)
 		input = get_std_input();
 		bsq(input);
 	}
-	end = clock(); // PLS DELETEEE!!
-	printf("Number of seconds: %f\n", (end-start)/(double)CLOCKS_PER_SEC); // JUST KILL ME!!!
 	return (0);
 }

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   input.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mfernand <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2016/08/03 17:35:25 by mfernand          #+#    #+#             */
+/*   Updated: 2016/08/03 17:35:26 by mfernand         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "bsq.h"
 
 int			first_row_len(char *first_buf)
@@ -14,7 +26,7 @@ void		set_grid_marks(t_bsq *bsq, char *first_buf, int info_len)
 {
 	bsq->square = first_buf[info_len - 1];
 	bsq->obstacle = first_buf[info_len - 2];
-	bsq->empty = first_buf[info_len - 3];	
+	bsq->empty = first_buf[info_len - 3];
 }
 
 void		set_num_rows(t_bsq *bsq, char *first_buf, int info_len)
@@ -35,7 +47,8 @@ void		set_num_rows(t_bsq *bsq, char *first_buf, int info_len)
 void		set_num_cols(t_bsq *bsq, char *first_buf, int info_len)
 {
 	bsq->num_cols = 0;
-	while (first_buf[(bsq->num_cols + 1) + info_len] != '\n' && first_buf[bsq->num_cols + info_len])
+	while (first_buf[(bsq->num_cols + 1) + info_len] != '\n'
+		&& first_buf[bsq->num_cols + info_len])
 		bsq->num_cols++;
 }
 
@@ -43,9 +56,11 @@ void		set_grid(t_bsq *bsq, char *first_buf, int info_len, int fd)
 {
 	int		i;
 	int		j;
+	int		size;
 	int		bytes_read;
 
-	bsq->grid = (char *)malloc(sizeof(char) * (bsq->num_rows * (bsq->num_cols + 1)));
+	size = sizeof(char) * (bsq->num_rows * (bsq->num_cols + 1));
+	bsq->grid = (char *)malloc(size);
 	i = info_len + 1;
 	j = 0;
 	while (first_buf[i + j])
@@ -59,7 +74,7 @@ void		set_grid(t_bsq *bsq, char *first_buf, int info_len, int fd)
 	}
 	bsq->grid[j] = 0;
 	if (j != bsq->num_rows * (bsq->num_cols + 1))
-		printf("ERROR\n");
+		ft_putstr("ERROR\n");
 }
 
 t_bsq		*get_input(int fd)
@@ -70,6 +85,9 @@ t_bsq		*get_input(int fd)
 	char	*first_buf;
 
 	bsq = (t_bsq *)malloc(sizeof(t_bsq));
+	bsq->x_loc = 0;
+	bsq->y_loc = 0;
+	bsq->max_size = 0;
 	first_buf = malloc(BUF_SIZE + 1);
 	bytes_read = read(fd, first_buf, BUF_SIZE);
 	first_buf[bytes_read] = 0;
@@ -78,9 +96,7 @@ t_bsq		*get_input(int fd)
 	set_num_rows(bsq, first_buf, info_len);
 	set_num_cols(bsq, first_buf, info_len);
 	set_grid(bsq, first_buf, info_len, fd);
-	// printf("%d\n", bsq->num_cols);
-	// bsq->num_grid[0] = (int *)malloc(sizeof(int) * bsq->num_cols);
-	return (bsq);	
+	return (bsq);
 }
 
 t_bsq		*get_file_input(char *file_name)
